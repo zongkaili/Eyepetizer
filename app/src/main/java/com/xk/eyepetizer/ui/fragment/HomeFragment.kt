@@ -56,7 +56,6 @@ class HomeFragment : BaseFragment(tabId = tabsId[0]), HomeContract.IView {
     var loadingMore = false
     private fun initView() {
 
-
         activity.tv_bar_title?.typeface = Typeface.createFromAsset(activity?.assets, "fonts/Lobster-1.4.otf")
         val paint = activity.tv_bar_title.paint
         paint.setFakeBoldText(true)

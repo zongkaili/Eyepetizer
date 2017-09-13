@@ -84,6 +84,18 @@
             android:text="热门"
             android:textColor="@android:color/darker_gray"
             android:textSize="10sp" />
+
+        <RadioButton
+            android:id="@+id/rb_mine"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawableTop="@drawable/mine_rb_selected"
+            android:gravity="center"
+            android:text="我的"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="10sp" />
     </RadioGroup>
 
 </RelativeLayout>

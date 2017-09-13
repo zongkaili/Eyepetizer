@@ -10,6 +10,7 @@ import com.xk.eyepetizer.ui.base.tabsId
 import com.xk.eyepetizer.ui.fragment.CategoryFragment
 import com.xk.eyepetizer.ui.fragment.HomeFragment
 import com.xk.eyepetizer.ui.fragment.HotFragment
+import com.xk.eyepetizer.ui.fragment.MineFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 /**
@@ -40,8 +41,9 @@ class MainActivity : BaseActivity() {
         if (fragment == null) {
             when (checkedId) {
                 R.id.rb_home -> beginTransaction.add(R.id.fl_content, HomeFragment(), checkedId.toString())
-                R.id.rb_hot -> beginTransaction.add(R.id.fl_content, HotFragment(), checkedId.toString())
                 R.id.rb_category -> beginTransaction.add(R.id.fl_content, CategoryFragment(), checkedId.toString())
+                R.id.rb_hot -> beginTransaction.add(R.id.fl_content, HotFragment(), checkedId.toString())
+                R.id.rb_mine -> beginTransaction.add(R.id.fl_content, MineFragment(), checkedId.toString())
             }
         }
         tabsId.forEach { tab ->

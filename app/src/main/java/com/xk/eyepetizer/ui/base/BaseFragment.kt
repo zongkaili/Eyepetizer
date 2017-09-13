@@ -9,7 +9,7 @@ import io.reactivex.disposables.Disposable
  * Created by xuekai on 2017/8/23.
  */
 var currentFragment = R.id.rb_home
-val tabsId = listOf(R.id.rb_home, R.id.rb_category, R.id.rb_hot)
+val tabsId = listOf(R.id.rb_home, R.id.rb_category, R.id.rb_hot, R.id.rb_mine)
 
 abstract class BaseFragment(tabId: Int) : Fragment(), RxNetManager {
     var tabId = 0
