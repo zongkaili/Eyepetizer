@@ -92,6 +92,7 @@ class CategoryFragment : BaseFragment(tabId = tabsId[1]), CategoryContract.IView
             return true
         }
         super.setupToolbar()
+        activity.toolbar.visibility = View.VISIBLE
         activity.toolbar.setBackgroundColor(0xddffffff.toInt())
         activity.iv_search.setImageResource(R.mipmap.ic_action_search)
         activity.tv_bar_title.setText("分类")
