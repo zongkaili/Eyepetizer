@@ -39,7 +39,9 @@ dependencies {
     compile 'com.shuyu:GSYVideoPlayer:2.0.4'
     compile 'com.android.support:recyclerview-v7:25.0.1'
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:design:26.0.0-alpha1'
+    compile 'com.android.support:design:25.0.1'
+    compile 'zlc.season:rxdownload2:2.0.4'
+    compile 'com.gyf.barlibrary:barlibrary:2.2.5'
 }
 repositories {
     mavenCentral()

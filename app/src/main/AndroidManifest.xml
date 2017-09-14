@@ -26,8 +26,9 @@
         <activity
             android:name=".ui.activity.DetailActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="nosensor"></activity>
+            android:screenOrientation="nosensor" />
         <activity android:name=".ui.activity.CategoryDetailActivity" />
+        <activity android:name=".ui.activity.CacheActivity"></activity>
     </application>
 
 </manifest>

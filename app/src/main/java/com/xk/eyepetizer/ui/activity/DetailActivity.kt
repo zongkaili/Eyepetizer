@@ -21,6 +21,8 @@ import com.bumptech.glide.load.resource.bitmap.BitmapTransformation
 import com.shuyu.gsyvideoplayer.GSYVideoManager
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
 import com.shuyu.gsyvideoplayer.video.base.GSYVideoPlayer
+import com.tt.lvruheng.eyepetizer.utils.ObjectSaveUtils
+import com.tt.lvruheng.eyepetizer.utils.SPUtils
 import com.xk.eyepetizer.R
 import com.xk.eyepetizer.mvp.contract.DetailContract
 import com.xk.eyepetizer.mvp.model.bean.Issue
@@ -32,6 +34,7 @@ import com.xk.eyepetizer.ui.view.detail.*
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_detail.*
 import kotlinx.android.synthetic.main.layout_detail_drop_down.view.*
+import zlc.season.rxdownload2.RxDownload
 import java.util.*
 
 class DetailActivity : AppCompatActivity(), DetailContract.IView {
@@ -77,20 +80,44 @@ class DetailActivity : AppCompatActivity(), DetailContract.IView {
                 {
                     when (it) {
                         BTN_AUTHOR -> showToast("跳到作者")
-                        BTN_DOWLOAD -> showToast("下载（未实现）")
                         BTN_REPLY -> presenter.requestReply(itemData?.data?.id!!)
                         BTN_FAVORITES -> showToast("喜欢（未实现）")
                         BTN_WATCH -> showToast("加关注（未实现）")
                         BTN_SHARE -> showToast("分享（未实现）")
+                        BTN_DOWLOAD -> {//开始下载
+                            var url = itemData?.data?.playUrl?.let { it1 -> SPUtils.getInstance(this, "downloads").getString(it1) }
+                            if (url.equals("")) {
+                                var count = SPUtils.getInstance(this, "downloads").getInt("count")
+                                if (count != -1) {
+                                    count = count.inc()
+                                } else {
+                                    count = 1
+                                }
+                                SPUtils.getInstance(this, "downloads").put("count", count)
+                                ObjectSaveUtils.saveObject(this, "downloads$count", itemData?.data!!)
+                                addMission(itemData?.data?.playUrl, count)
+                            } else {
+                                showToast("该视频已经下载过了")
+                            }
+                        }
                     }
                 })
+    }
 
+    private fun addMission(playUrl: String?, count: Int) {
+        RxDownload.getInstance(this).serviceDownload(playUrl, "download$count").subscribe({
+            showToast("开始下载")
+            SPUtils.getInstance(this, "downloads").put(playUrl.toString(), playUrl.toString())
+            SPUtils.getInstance(this, "download_state").put(playUrl.toString(), true)
+        },{
+            showToast("添加任务失败")
+        })
     }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        presenter=DetailPresenter(this)
+        presenter = DetailPresenter(this)
         setContentView(R.layout.activity_detail)
         initView()
         loadData()
@@ -101,7 +128,6 @@ class DetailActivity : AppCompatActivity(), DetailContract.IView {
         itemData = intent.getSerializableExtra("data") as Item
         presenter.requestBasicDataFromMemory(itemData!!)
     }
-
 
 
     override fun onResume() {
@@ -277,7 +303,7 @@ class DetailActivity : AppCompatActivity(), DetailContract.IView {
             return
         }
         //issue为空，没数据
-        topDropDownView.addDropDownData(Item("",null,""))
+        topDropDownView.addDropDownData(Item("", null, ""))
     }
 
 

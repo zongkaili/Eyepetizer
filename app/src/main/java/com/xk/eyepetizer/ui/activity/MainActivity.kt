@@ -1,5 +1,6 @@
 package com.xk.eyepetizer.ui.activity
 
+import android.graphics.Typeface
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import com.xk.eyepetizer.R
@@ -24,6 +25,11 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setRadio()
+        initToolbar()
+    }
+
+    private fun initToolbar() {
+        tv_bar_title.typeface = Typeface.createFromAsset(this.assets,"fonts/Lobster-1.4.otf")
     }
 
     private fun setRadio() {

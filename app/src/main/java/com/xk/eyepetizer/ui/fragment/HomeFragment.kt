@@ -77,7 +77,7 @@ class HomeFragment : BaseFragment(tabId = tabsId[0]), HomeContract.IView {
                     val itemCount = rv_home.layoutManager.getItemCount()
                     val firstVisibleItem = (rv_home.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
                     if (firstVisibleItem + childCount == itemCount) {
-                        Log.d(TAG, "到底了");
+                        Log.d(TAG, "到底了")
                         if (!loadingMore) {
                             loadingMore = true
                             onLoadMore()
@@ -105,7 +105,6 @@ class HomeFragment : BaseFragment(tabId = tabsId[0]), HomeContract.IView {
         if (super.setupToolbar()) {
             return true
         }
-        activity.toolbar.visibility = View.VISIBLE
         val findFirstVisibleItemPosition = linearLayoutManager.findFirstVisibleItemPosition()
         if (findFirstVisibleItemPosition == 0) {//设置为透明
             activity.toolbar.setBackgroundColor(0x00000000)
