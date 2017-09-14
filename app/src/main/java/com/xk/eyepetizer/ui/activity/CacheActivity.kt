@@ -40,6 +40,14 @@ class CacheActivity : AppCompatActivity() {
         ImmersionBar.with(this).transparentBar().barAlpha(0.3f).fitsSystemWindows(true).init()
         setToolbar()
         DataAsyncTask(mHandler, this).execute()
+        mAdapter = VideoListAdapter(this, mList)
+        mAdapter.setOnLongClickListener(object : VideoListAdapter.OnLongClickListener {
+            override fun onLongClick(position: Int) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+        })
+
+        recyclerView.adapter = mAdapter
     }
 
     private fun setToolbar() {
@@ -57,7 +65,7 @@ class CacheActivity : AppCompatActivity() {
         var handler = handler
         override fun doInBackground(vararg params: Void?): ArrayList<Item> {
             var list = ArrayList<Item>()
-            var count: Int = SPUtils.getInstance(activity,"downloads").getInt("count")
+            var count: Int = SPUtils.getInstance(activity, "downloads").getInt("count")
             var i = 1
             while (i.compareTo(count) <= 0) {
                 var bean: Item
