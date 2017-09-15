@@ -1,5 +1,6 @@
 package com.xk.eyepetizer.ui.activity
 
+import android.annotation.SuppressLint
 import android.os.AsyncTask
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -17,10 +18,11 @@ import kotlinx.android.synthetic.main.activity_cache.*
 class CacheActivity : AppCompatActivity() {
     var mList = ArrayList<Item>()
     lateinit var mAdapter: VideoListAdapter
-    var mHandler: Handler = object : Handler() {
+    var mHandler: Handler = @SuppressLint("HandlerLeak")
+    object : Handler() {
         override fun handleMessage(msg: Message?) {
             super.handleMessage(msg)
-            var list = msg?.data?.getParcelableArrayList(Item)("beans")
+            var list = msg?.data?.getParcelableArrayList<Item>("beans")
             if (list?.size?.compareTo(0) == 0) {
                 tv_hint.visibility = View.VISIBLE
             } else {
@@ -46,7 +48,6 @@ class CacheActivity : AppCompatActivity() {
                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
         })
-
         recyclerView.adapter = mAdapter
     }
 

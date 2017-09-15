@@ -7,7 +7,7 @@ import java.io.Serializable
 /**
  * Created by xuekai on 2017/8/20.
  */
-data class Item(val type: String, val data: Data?, val tag: String) : Parcelable, Serializable {
+data class Item(val type: String?, val data: Data?, val tag: String?) : Parcelable, Serializable {
 
     companion object {
         @JvmField
@@ -87,7 +87,5 @@ data class Item(val type: String, val data: Data?, val tag: String) : Parcelable
         data class User(val uid: Long, val nickname: String, val avatar: String, val userType: String, val ifPgc: Boolean) : Serializable
         data class ParentReply(val user: User, val message: String) : Serializable
         data class Url(val size: Long) : Serializable
-
     }
-
 }
