@@ -27,7 +27,6 @@ class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
                 holder.itemView.setOnClickListener { onClick?.invoke(data[position]) }
             }
         }
-
     }
 
     fun setData(data: ArrayList<Category>) {

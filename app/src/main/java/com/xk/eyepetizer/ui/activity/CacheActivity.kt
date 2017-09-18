@@ -9,7 +9,7 @@ import android.os.Message
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.gyf.barlibrary.ImmersionBar
-import com.tt.lvruheng.eyepetizer.adapter.VideoListAdapter
+import com.tt.lvruheng.eyepetizer.adapter.DownloadVideosAdapter
 import com.tt.lvruheng.eyepetizer.utils.ObjectSaveUtils
 import com.tt.lvruheng.eyepetizer.utils.SPUtils
 import com.xk.eyepetizer.R
@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.activity_cache.*
 
 class CacheActivity : AppCompatActivity() {
     var mList = ArrayList<Item>()
-    lateinit var mAdapter: VideoListAdapter
+    lateinit var mAdapter: DownloadVideosAdapter
     var mHandler: Handler = @SuppressLint("HandlerLeak")
     object : Handler() {
         override fun handleMessage(msg: Message?) {
@@ -44,8 +44,8 @@ class CacheActivity : AppCompatActivity() {
         setToolbar()
         DataAsyncTask(mHandler, this).execute()
         recyclerView.layoutManager = LinearLayoutManager(this)
-        mAdapter = VideoListAdapter(this, mList)
-        mAdapter.setOnLongClickListener(object : VideoListAdapter.OnLongClickListener {
+        mAdapter = DownloadVideosAdapter(this, mList)
+        mAdapter.setOnLongClickListener(object : DownloadVideosAdapter.OnLongClickListener {
             override fun onLongClick(position: Int) {
                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
