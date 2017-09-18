@@ -3,13 +3,22 @@
     android:layout_width="match_parent"
     android:layout_height="100dp">
 
-    <ImageView
-        android:id="@+id/iv_photo"
-        android:layout_width="180dp"
-        android:layout_height="match_parent"
+    <CheckBox
+        android:id="@+id/cb_select"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginRight="5dp"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:padding="5dp" />
+        android:visibility="gone"/>
+
+    <ImageView
+        android:id="@+id/iv_photo"
+        android:layout_width="160dp"
+        android:layout_height="match_parent"
+        android:padding="5dp"
+        android:layout_toRightOf="@+id/cb_select"
+        android:layout_toEndOf="@+id/cb_select" />
 
     <RelativeLayout
         android:layout_width="match_parent"

@@ -7,6 +7,8 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Message
 import android.support.v7.widget.LinearLayoutManager
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import com.gyf.barlibrary.ImmersionBar
 import com.tt.lvruheng.eyepetizer.adapter.DownloadVideosAdapter
@@ -14,6 +16,7 @@ import com.tt.lvruheng.eyepetizer.utils.ObjectSaveUtils
 import com.tt.lvruheng.eyepetizer.utils.SPUtils
 import com.xk.eyepetizer.R
 import com.xk.eyepetizer.mvp.model.bean.Item
+import com.xk.eyepetizer.showToast
 import kotlinx.android.synthetic.main.activity_cache.*
 
 class CacheActivity : AppCompatActivity() {
@@ -61,6 +64,20 @@ class CacheActivity : AppCompatActivity() {
         toolbar.setNavigationOnClickListener {
             onBackPressed()
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        this.menuInflater.inflate(R.menu.menu_toolbar_edit,menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.edit -> {
+                showToast("edit")
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private class DataAsyncTask(handler: Handler, activity: CacheActivity) : AsyncTask<Void, Void, ArrayList<Item>>() {
