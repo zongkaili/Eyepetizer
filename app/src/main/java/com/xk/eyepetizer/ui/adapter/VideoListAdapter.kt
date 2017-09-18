@@ -26,7 +26,7 @@ import zlc.season.rxdownload2.RxDownload
  */
 class VideoListAdapter(context: Context, list: ArrayList<Item>) : RecyclerView.Adapter<VideoListAdapter.DownloadViewHolder>() {
     lateinit var mOnLongLisenter: OnLongClickListener
-    var context: Context? = null;
+    var context: Context? = null
     var list: ArrayList<Item>? = null
     var inflater: LayoutInflater? = null
     var isDownload = false
@@ -48,7 +48,7 @@ class VideoListAdapter(context: Context, list: ArrayList<Item>) : RecyclerView.A
     }
 
     override fun onBindViewHolder(holder: DownloadViewHolder?, position: Int) {
-        var photoUrl: String? = list?.get(position)?.data?.thumbPlayUrl
+        var photoUrl: String? = list?.get(position)?.data?.cover?.feed
         photoUrl?.let { GlideUtil.display(context!!, holder?.iv_photo, it) }
         var title: String? = list?.get(position)?.data?.title
         holder?.tv_title?.text = title

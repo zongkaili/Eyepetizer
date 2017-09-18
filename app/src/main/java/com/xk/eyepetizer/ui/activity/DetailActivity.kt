@@ -91,7 +91,7 @@ class DetailActivity : AppCompatActivity(), DetailContract.IView {
                                     count = 1
                                 }
                                 SPUtils.getInstance(this, "downloads").put("count", count)
-                                ObjectSaveUtils.saveObject(this, "downloads$count", itemData?.data!!)
+                                ObjectSaveUtils.saveObject(this, "download$count", itemData!!)
                                 addMission(itemData?.data?.playUrl, count)
                             } else {
                                 showToast("该视频已经下载过了")

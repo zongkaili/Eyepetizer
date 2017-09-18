@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
+import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.gyf.barlibrary.ImmersionBar
 import com.tt.lvruheng.eyepetizer.adapter.VideoListAdapter
@@ -42,6 +43,7 @@ class CacheActivity : AppCompatActivity() {
         ImmersionBar.with(this).transparentBar().barAlpha(0.3f).fitsSystemWindows(true).init()
         setToolbar()
         DataAsyncTask(mHandler, this).execute()
+        recyclerView.layoutManager = LinearLayoutManager(this)
         mAdapter = VideoListAdapter(this, mList)
         mAdapter.setOnLongClickListener(object : VideoListAdapter.OnLongClickListener {
             override fun onLongClick(position: Int) {
@@ -64,7 +66,7 @@ class CacheActivity : AppCompatActivity() {
     private class DataAsyncTask(handler: Handler, activity: CacheActivity) : AsyncTask<Void, Void, ArrayList<Item>>() {
         var activity: CacheActivity = activity
         var handler = handler
-        override fun doInBackground(vararg params: Void?): ArrayList<Item> {
+        override fun doInBackground(vararg params: Void?): ArrayList<Item>? {
             var list = ArrayList<Item>()
             var count: Int = SPUtils.getInstance(activity, "downloads").getInt("count")
             var i = 1
