@@ -24,8 +24,8 @@ import kotlinx.android.synthetic.main.layout_bottom_controller.*
 class CacheActivity : AppCompatActivity(), View.OnClickListener {
     var mList = ArrayList<Item>()
     lateinit var mAdapter: DownloadVideosAdapter
-    var index : Int = 0
-    var isSelectAll : Boolean = false
+    var index: Int = 0
+    var isSelectAll: Boolean = false
 
     var mHandler: Handler = @SuppressLint("HandlerLeak")
     object : Handler() {
@@ -58,7 +58,7 @@ class CacheActivity : AppCompatActivity(), View.OnClickListener {
                 if (mAdapter.mEditMode == DownloadVideosAdapter.MODE_NORMAL)
                     toActivityWithSerializable<DetailActivity>(items.get(position))
                 else {
-                    onItemSelected(position,items)
+                    onItemSelected(position, items)
                 }
             }
         })
@@ -127,7 +127,7 @@ class CacheActivity : AppCompatActivity(), View.OnClickListener {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun onItemSelected (position: Int, items: List<Item>) {
+    private fun onItemSelected(position: Int, items: List<Item>) {
         val item = items.get(position)
         if (item.isSelected()) {
             index++
@@ -142,15 +142,16 @@ class CacheActivity : AppCompatActivity(), View.OnClickListener {
             isSelectAll = false
             tv_select_all.text = resources.getString(R.string.string_select_all)
         }
-        if (index == 0) {
+        if (index <= 0) {
             tv_delete.setTextColor(resources.getColor(R.color.black))
             tv_delete.isEnabled = false
+            tv_delete.text = "删除"
         } else {
             tv_delete.setTextColor(resources.getColor(R.color.colorPrimary))
             tv_delete.isEnabled = true
+            tv_delete.text = resources.getString(R.string.string_delete, index)
         }
-        tv_delete.text = resources.getString(R.string.string_delete, index)
-        mAdapter.notifyDataSetChanged()
+        mAdapter.notifyItemChanged(position)
     }
 
     private class DataAsyncTask(handler: Handler, activity: CacheActivity) : AsyncTask<Void, Void, ArrayList<Item>>() {
@@ -184,13 +185,13 @@ class CacheActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onClick(v: View?) {
-       when (v?.id) {
-           R.id.tv_select_all -> {
+        when (v?.id) {
+            R.id.tv_select_all -> {
 
-           }
-           R.id.tv_delete -> {
+            }
+            R.id.tv_delete -> {
 
-           }
-       }
+            }
+        }
     }
 }

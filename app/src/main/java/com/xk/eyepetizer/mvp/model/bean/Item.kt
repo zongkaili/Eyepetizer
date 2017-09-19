@@ -39,7 +39,12 @@ data class Item(val type: String?, val data: Data?, val tag: String?) : Parcelab
         parcel.writeString(tag)
     }
 
-    data class Data(val dataType: String, val text: String, val videoTitle: String, val id: Long, val title: String, val slogan: String?,
+    data class Data(val dataType: String,
+                    val text: String,
+                    val videoTitle: String,
+                    val id: Long,
+                    val title: String,
+                    val slogan: String?,
                     val description: String,
                     val actionUrl: String,
                     val provider: Provider,

@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginRight="20dp"
-        android:text="@string/string_delete"
+        android:text="删除"
         android:textColor="#1A1A1A"
         android:textSize="14sp"
         app:layout_constraintRight_toRightOf="parent"

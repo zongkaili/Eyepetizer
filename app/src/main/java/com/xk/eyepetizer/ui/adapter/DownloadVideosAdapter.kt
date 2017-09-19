@@ -78,47 +78,49 @@ class DownloadVideosAdapter(context: Context, list: ArrayList<Item>) : RecyclerV
 
     override fun onBindViewHolder(holder: DownloadViewHolder?, position: Int) {
 //        holder?.setIsRecyclable(false)//item不复用
-
         val itemViewType = getItemViewType(position)
         when (itemViewType) {
             TYPE_STANDARD -> {
+                val itemView : VideosListItem = holder?.itemView as VideosListItem
                 if (mEditMode == MODE_CHECK) {
-                    holder?.itemView?.cb_select?.visibility = View.VISIBLE
+                    itemView.cb_select?.visibility = View.VISIBLE
                 } else {
-                    holder?.itemView?.cb_select?.visibility = View.GONE
+                    itemView.cb_select?.visibility = View.GONE
                 }
 
-                holder?.itemView?.tv_title?.typeface = Typeface.createFromAsset(context?.assets, "fonts/FZLanTingHeiS-L-GB-Regular.TTF")
-                var photoUrl: String? = list?.get(position)?.data?.cover?.feed
+                itemView.tv_title?.typeface = Typeface.createFromAsset(context?.assets, "fonts/FZLanTingHeiS-L-GB-Regular.TTF")
+                val photoUrl: String? = list?.get(position)?.data?.cover?.feed
                 photoUrl?.let { GlideUtil.display(context!!, holder?.itemView?.iv_photo, it) }
-                var title: String? = list?.get(position)?.data?.title
+                val title: String? = list?.get(position)?.data?.title
                 holder?.itemView?.tv_title?.text = title
                 isDownload = SPUtils.getInstance(context!!, "download_state").getBoolean(list?.get(position)?.data?.playUrl!!)
                 getDownloadState(list?.get(position)?.data?.playUrl, holder?.itemView)
                 if (isDownload) {
-                    holder?.itemView?.iv_download_state?.setImageResource(R.mipmap.action_stop)
+                    itemView.iv_download_state?.setImageResource(R.mipmap.action_stop)
                 } else {
-                    holder?.itemView?.iv_download_state?.setImageResource(R.mipmap.action_start)
+                    itemView.iv_download_state?.setImageResource(R.mipmap.action_start)
                 }
-                holder?.itemView?.iv_download_state?.setOnClickListener {
+                itemView.iv_download_state?.setOnClickListener {
                     if (isDownload) {
                         isDownload = false
                         SPUtils.getInstance(context!!, "download_state").put(list?.get(position)?.data?.playUrl!!, false)
-                        holder?.itemView?.iv_download_state?.setImageResource(R.mipmap.action_start)
+                        itemView.iv_download_state?.setImageResource(R.mipmap.action_start)
                         RxDownload.getInstance(context).pauseServiceDownload(list?.get(position)?.data?.playUrl).subscribe()
                     } else {
                         isDownload = true
                         SPUtils.getInstance(context!!, "download_state").put(list?.get(position)?.data?.playUrl!!, true)
-                        holder?.itemView?.iv_download_state?.setImageResource(R.mipmap.action_stop)
+                        itemView.iv_download_state?.setImageResource(R.mipmap.action_stop)
                         addMission(list?.get(position)?.data?.playUrl, position + 1)
                     }
                 }
 
-                holder?.itemView?.setOnClickListener {
+                itemView.cb_select?.isChecked = list?.get(position)?.isSelected()!!
+
+                itemView.setOnClickListener {
                     mOnItemLisenter.onItemClick(position, list!!)
                     true
                 }
-                holder?.itemView?.cb_select?.setOnCheckedChangeListener { compoundButton: CompoundButton, b: Boolean ->
+                itemView.cb_select?.setOnCheckedChangeListener { compoundButton: CompoundButton, b: Boolean ->
 //                    if (b) {
 //                        list?.get(position)!!.setSelected(true)
 //                    } else {
@@ -168,8 +170,6 @@ class DownloadVideosAdapter(context: Context, list: ArrayList<Item>) : RecyclerV
                         } else {
                             itemView?.tv_detail?.text = "已暂停 / $percent%"
                         }
-
-
                     }
                 }
 
