@@ -36,7 +36,7 @@ class DetailDropDownAdapter : RecyclerView.Adapter<DetailDropDownAdapter.ViewHol
             }
             TYPE_REPLY -> {
                 (itemView as DetailReplyView).setData(data[position])
-//                itemView.setOnClickListener { onVideoClick?.invoke(data[position]) }
+//                itemView.setOnItemClickListener { onVideoClick?.invoke(data[position]) }
             }
             else -> {
 //                throw IllegalArgumentException("日狗，api蒙错了，出现了第三种情况")

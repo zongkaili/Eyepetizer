@@ -9,6 +9,14 @@ import java.io.Serializable
  */
 data class Item(val type: String?, val data: Data?, val tag: String?) : Parcelable, Serializable {
 
+    private var isSelect = false
+    public fun isSelected () : Boolean{
+        return isSelect
+    }
+    public fun setSelected (isSelect: Boolean) {
+        this.isSelect = isSelect
+    }
+
     companion object {
         @JvmField
         var CREATOR: Parcelable.Creator<Item> = object : Parcelable.Creator<Item> {

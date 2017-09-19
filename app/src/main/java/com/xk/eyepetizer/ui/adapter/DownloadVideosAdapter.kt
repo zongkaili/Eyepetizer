@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CompoundButton
 import android.widget.Toast
 import com.tt.lvruheng.eyepetizer.utils.SPUtils
 import com.xk.eyepetizer.R
@@ -28,16 +29,23 @@ import zlc.season.rxdownload2.RxDownload
  * Created by lvruheng on 2017/7/7.
  */
 class DownloadVideosAdapter(context: Context, list: ArrayList<Item>) : RecyclerView.Adapter<DownloadVideosAdapter.DownloadViewHolder>() {
-    lateinit var mOnLongLisenter: OnLongClickListener
+    lateinit var mOnItemLisenter: OnItemClickListener
+    lateinit var mOnItemSelectedLisenter: OnItemSelectedListener
     var context: Context? = null
     var list: ArrayList<Item>? = null
     var inflater: LayoutInflater? = null
     var isDownload = false
     var hasLoaded = false
     lateinit var disposable: Disposable
+    var mEditMode: Int = MODE_NORMAL
 
     private val TYPE_STANDARD = 1
     private val TYPE_END = 2
+
+    companion object {
+        val MODE_NORMAL = 0
+        val MODE_CHECK = 1
+    }
 
     init {
         this.context = context
@@ -60,7 +68,7 @@ class DownloadVideosAdapter(context: Context, list: ArrayList<Item>) : RecyclerV
         return DownloadViewHolder(itemView, context!!)
     }
 
-    override fun getItemCount(): Int = if(list?.size == 0) 0 else list?.size!! + 1
+    override fun getItemCount(): Int = if (list?.size == 0) 0 else list?.size!! + 1
 
     override fun getItemViewType(position: Int): Int {
         if (list?.size == position)
@@ -69,10 +77,17 @@ class DownloadVideosAdapter(context: Context, list: ArrayList<Item>) : RecyclerV
     }
 
     override fun onBindViewHolder(holder: DownloadViewHolder?, position: Int) {
+//        holder?.setIsRecyclable(false)//item不复用
+
         val itemViewType = getItemViewType(position)
-        if(itemViewType == TYPE_END) return
         when (itemViewType) {
             TYPE_STANDARD -> {
+                if (mEditMode == MODE_CHECK) {
+                    holder?.itemView?.cb_select?.visibility = View.VISIBLE
+                } else {
+                    holder?.itemView?.cb_select?.visibility = View.GONE
+                }
+
                 holder?.itemView?.tv_title?.typeface = Typeface.createFromAsset(context?.assets, "fonts/FZLanTingHeiS-L-GB-Regular.TTF")
                 var photoUrl: String? = list?.get(position)?.data?.cover?.feed
                 photoUrl?.let { GlideUtil.display(context!!, holder?.itemView?.iv_photo, it) }
@@ -98,13 +113,18 @@ class DownloadVideosAdapter(context: Context, list: ArrayList<Item>) : RecyclerV
                         addMission(list?.get(position)?.data?.playUrl, position + 1)
                     }
                 }
+
                 holder?.itemView?.setOnClickListener {
-                    //跳转视频详情页
-                    v->v.context.toActivityWithSerializable<DetailActivity>(list?.get(position)!!)
-                }
-                holder?.itemView?.setOnLongClickListener {
-                    mOnLongLisenter.onLongClick(position)
+                    mOnItemLisenter.onItemClick(position, list!!)
                     true
+                }
+                holder?.itemView?.cb_select?.setOnCheckedChangeListener { compoundButton: CompoundButton, b: Boolean ->
+//                    if (b) {
+//                        list?.get(position)!!.setSelected(true)
+//                    } else {
+//                        list?.get(position)!!.setSelected(false)
+//                    }
+//                    mOnItemSelectedLisenter.onItemSelected(position)
                 }
             }
 
@@ -113,6 +133,11 @@ class DownloadVideosAdapter(context: Context, list: ArrayList<Item>) : RecyclerV
             }
         }
 
+    }
+
+    fun setEditMode(editMode: Int) {
+        mEditMode = editMode
+        notifyDataSetChanged()
     }
 
     private fun getDownloadState(playUrl: String?, itemView: View?) {
@@ -126,7 +151,7 @@ class DownloadVideosAdapter(context: Context, list: ArrayList<Item>) : RecyclerV
                     var downloadStatus = event.downloadStatus
                     var percent = downloadStatus.percentNumber
                     if (percent == 100L) {
-                        if(!disposable.isDisposed&&disposable!= null){
+                        if (!disposable.isDisposed && disposable != null) {
                             disposable.dispose()
                         }
                         hasLoaded = true
@@ -160,11 +185,19 @@ class DownloadVideosAdapter(context: Context, list: ArrayList<Item>) : RecyclerV
 
     class DownloadViewHolder(itemView: View?, context: Context) : RecyclerView.ViewHolder(itemView)
 
-    interface OnLongClickListener {
-        fun onLongClick(position: Int)
+    interface OnItemClickListener {
+        fun onItemClick(position: Int, items: List<Item>)
     }
 
-    fun setOnLongClickListener(onLongClickListener: OnLongClickListener) {
-        mOnLongLisenter = onLongClickListener
+    fun setOnItemClickListener(onItemClickListener: OnItemClickListener) {
+        mOnItemLisenter = onItemClickListener
+    }
+
+    interface OnItemSelectedListener {
+        fun onItemSelected(position: Int)
+    }
+
+    fun setOnItemSelectedListener(onItemSelectedListener: OnItemSelectedListener) {
+        mOnItemSelectedLisenter = onItemSelectedListener
     }
 }
